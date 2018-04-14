@@ -1,0 +1,5 @@
+org/crukike/todonotes/web/spring/ServletInitializer.class
+org/crukike/todonotes/web/App.class
+org/crukike/todonotes/web/spring/TodoNotesWebApp.class
+org/crukike/todonotes/web/spring/WebMvcAppConfig.class
+org/crukike/todonotes/web/controller/AddController.class

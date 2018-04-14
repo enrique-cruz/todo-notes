@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd 
+		http://www.liquibase.org/xml/ns/dbchangelog-ext 
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<changeSet author="enrique.cruz" id="1">
+		<comment>Dump inicial de la base de datos</comment>
+
+		<createTable tableName="user">
+			<column name="id" autoIncrement="true" type="BIGINT(19)">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="userName" type="VARCHAR(15)">
+				<constraints nullable="false" />
+			</column>
+			<column name="name" type="VARCHAR(250)">
+				<constraints nullable="false" />
+			</column>
+			<column name="password" type="VARCHAR(250)">
+				<constraints nullable="false" />
+			</column>
+			<column name="email" type="VARCHAR(75)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<createTable tableName="note">
+			<column name="id" autoIncrement="true" type="BIGINT(19)">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="title" type="VARCHAR(100)">
+			</column>
+			<column name="desciption" type="TEXT">
+			</column>
+			<column name="reminderDate" type="datetime">
+			</column>
+			<column name="creationDate" type="datetime" defaultValueComputed="CURRENT_TIMESTAMP">
+				<constraints nullable="false" />
+			</column>
+			<column name="status" type="VARCHAR(30)">
+				<constraints nullable="false" />
+			</column>
+			<column name="pin" type="TINYINT(1)" defaultValueNumeric="0">
+				<constraints nullable="true" />
+			</column>
+			<column name="userId" type="BIGINT(19)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		
+		<createTable tableName="task">
+			<column name="id" autoIncrement="true" type="BIGINT(19)">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="description" type="TEXT" />
+			<column name="status" type="VARCHAR(30)">
+				<constraints nullable="false" />
+			</column>
+			<column name="noteId" type="BIGINT(19)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		
+		<createTable tableName="file">
+			<column name="id" autoIncrement="true" type="BIGINT(19)">
+				<constraints primaryKey="true"/>
+			</column>
+			<column name="fileName" type="VARCHAR(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="originalName" type="VARCHAR(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="noteId" type="BIGINT(19)">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+		
+		<createTable tableName="tag">
+			<column name="id" autoIncrement="true" type="BIGINT(19)">
+				<constraints primaryKey="true"/>
+			</column>
+			<column name="tagName" type="VARCHAR(100)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="userId" type="BIGINT(19)">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+		
+		<createTable tableName="noteTag">
+			<column name="noteId" type="BIGINT(19)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="tagId" type="BIGINT(19)">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+		
+		
+		<addUniqueConstraint columnNames="userName"
+			constraintName="unique_userName" deferrable="false" disabled="false"
+			initiallyDeferred="false" tableName="user" />
+			
+		<addUniqueConstraint columnNames="noteId,tagId"
+			constraintName="unique_noteTag" deferrable="false" disabled="false"
+			initiallyDeferred="false" tableName="noteTag" />
+			
+		<addUniqueConstraint columnNames="tagName,userId"
+			constraintName="unique_tag" deferrable="false" disabled="false"
+			initiallyDeferred="false" tableName="tag" />
+
+		<addForeignKeyConstraint baseColumnNames="userId"
+			baseTableName="note" constraintName="fk_note_user" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="user" />
+			
+		<addForeignKeyConstraint baseColumnNames="noteId"
+			baseTableName="task" constraintName="fk_task_note" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="note" />
+			
+		<addForeignKeyConstraint baseColumnNames="noteId"
+			baseTableName="file" constraintName="fk_file_note" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="note" />
+			
+		<addForeignKeyConstraint baseColumnNames="userId"
+			baseTableName="tag" constraintName="fk_tag_user" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="user" />
+			
+		<addForeignKeyConstraint baseColumnNames="noteId"
+			baseTableName="noteTag" constraintName="fk_noteTag_note" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="note" />
+			
+		<addForeignKeyConstraint baseColumnNames="tagId"
+			baseTableName="noteTag" constraintName="fk_noteTag_tag" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="tag" />
+
+	</changeSet>
+
+</databaseChangeLog>

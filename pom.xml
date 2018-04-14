@@ -14,23 +14,23 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>4.3.15.RELEASE</spring.version>
 		<spring.boot.version>1.5.11.RELEASE</spring.boot.version>
+		<spring.data.jpa.version>2.0.6.RELEASE</spring.data.jpa.version>
 		<junit.version>4.12</junit.version>
 		<jackson.databind.version>2.9.5</jackson.databind.version>
 		<javax.servlet-api.version>3.1.0</javax.servlet-api.version>
 		<javax.servlet.jstl>1.2</javax.servlet.jstl>
+		<hibernate.version>5.2.16.Final</hibernate.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
 
-			<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
+			<!-- Spring dependencies -->
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-web</artifactId>
 				<version>${spring.boot.version}</version>
 			</dependency>
-
-
 
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
@@ -38,6 +38,13 @@
 				<version>${spring.boot.version}</version>
 			</dependency>
 
+			<dependency>
+				<groupId>org.springframework.data</groupId>
+				<artifactId>spring-data-jpa</artifactId>
+				<version>${spring.data.jpa.version}</version>
+			</dependency>
+
+			<!-- Javax servlet -->
 			<dependency>
 				<groupId>javax.servlet</groupId>
 				<artifactId>javax.servlet-api</artifactId>
@@ -57,6 +64,13 @@
 				<artifactId>jackson-databind</artifactId>
 				<version>${jackson.databind.version}</version>
 			</dependency>
+			
+			<!-- Hibernate (JPA Provider) -->
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-entitymanager</artifactId>
+				<version>${hibernate.version}</version>
+			</dependency>
 
 			<dependency>
 				<groupId>junit</groupId>
@@ -64,7 +78,6 @@
 				<version>${junit.version}</version>
 				<scope>test</scope>
 			</dependency>
-
 
 		</dependencies>
 	</dependencyManagement>
@@ -90,5 +103,6 @@
 	<modules>
 		<module>todo-notes-web</module>
 		<module>todo-notes-service</module>
+		<module>todo-notes-entity</module>
 	</modules>
 </project>
